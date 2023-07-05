@@ -1,0 +1,48 @@
+{% load static %}
+
+
+<!--Nav Bar-->
+{% with request.resolver_match.url_name as url_name %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-black " id="navMain">
+    <div class="container-fluid nav-container">
+        <!--Brand Logo-->
+        <a class="navbar-brand" id="logo-brand" href="{% url 'index' %}"> <img src="{% static 'images/logo.png' %}"
+                alt=""></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBarLinks"
+            aria-controls="navBarLinks" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navBarLinks">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#">Service</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                {% if request.user.is_authenticated %}
+                <li class="nav-item signup-btn">
+                    <a class="nav-link {% if url_name == 'account_logout' %}active{% endif %}"
+                        href="/accounts/logout/">Logout</a>
+                </li>
+                <li class="nav-item signup-btn">
+                    <a class="#">User
+                        Panel</a>
+                </li>
+                {% else %}
+                <li class="nav-item signup-btn">
+                    <a class="nav-link {% if url_name == 'account_signup' %}active{% endif %}"
+                        href="/accounts/signup/">Register</a>
+                </li>
+                <li class="nav-item login-btn">
+                    <a class="nav-link {% if url_name == 'account_login' %}active{% endif %}"
+                        href="/accounts/login/">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% if request.user.is_authenticated %}
+            <span class="navbar-text pe-3 navUsername">
+                <i class="fa-solid fa-circle-user"></i> {{ user }}
+            </span>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+{% endwith %}

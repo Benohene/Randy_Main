@@ -1,0 +1,90 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  color: #303030;
+}
+
+/* Nav Bar with Brand Logo */
+#logo-brand img {
+  width: 200px;
+  height: 60px;
+}
+
+.active {
+  border-bottom: 2px solid #fff;
+}
+
+.navUsername {
+  color: #b68500;
+}
+
+/* Nav Bar Ends */
+
+/* Footer */
+footer {
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  font-size: 0.9rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+footer .btn:hover {
+  background-color: #b68500;
+  color: #fff;
+}
+
+/* End Footer */
+
+/* Login, Logout, Sign up */
+.accountMain {
+  height: 100%;
+  padding-top: 10rem;
+  padding-bottom: 15rem;
+}
+
+.form-check-label {
+  margin: 0;
+  padding: 0;
+}
+
+/*Media Queries*/
+@media (min-width: 768px) {
+  div.hero {
+    padding-top: 17rem;
+    padding-bottom: 12.5rem;
+  }
+
+  div.hero .hero-subheading {
+    font-size: 2.25rem;
+    font-style: italic;
+    line-height: 2.25rem;
+    margin-bottom: 2rem;
+  }
+
+  div.hero .hero-heading {
+    font-size: 4.5rem;
+    font-weight: 700;
+    line-height: 4.5rem;
+    margin-bottom: 4rem;
+  }
+}
+
+@media (max-width: 484px) {
+  .editBtn {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .map {
+    max-width: 100%;
+  }
+}

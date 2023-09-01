@@ -1,1 +1,23 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- hero with appointment -->
+<div class="hero home-hero mt-0">
+    <div class="container">
+        <div class="hero-subheading">Welcome To Our Barber Shop</div>
+        <div class="hero-heading text-uppercase">It's Nice To Meet You</div>
+        <a class="btn btn-warning btn-xl text-uppercase" href="{% url 'create_appointment' %}">Book Appointment</a>
+    </div>
+</div>
+<!-- hero with appointment Ends -->
+
+<!-- Welcome Section -->
+{% include 'includes/welcome.html' %}
+{% include 'includes/what_we_do.html' %}
+{% include 'includes/testimonial.html' %}
+<!-- Welcome Section End -->
+
+{% endblock  %}

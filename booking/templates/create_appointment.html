@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+
+{% block title %}{% trans "Make Appointment" %}{%endblock %}
+
+<!-- Create Appointment form -->
+{% block content %}
+
+<div class="accountMain">
+    <div class="m-3 col-12 col-md-8 mx-auto">
+        <form method="POST" action="{% url 'create_appointment' %}" class="form mb-2 p-2 form-style"
+            enctype="multipart/form-data">
+            <h1 class="text-center">Make Appointment</h1>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary rounded-3 p-2 form-style">
+                Book Now
+            </button>
+            <a href="" class="btn btn-danger rounded-3 p-2 form-style">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+```

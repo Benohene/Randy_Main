@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Appointment List{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="">User Panel</h1>
+            <h4 class="">User: <span class="text-gold">{{ user.username }}</span></h4>
+            <h4 class="">Email: <span class="text-gold">{{ user.email }}</span></h4>
+            <h4>Appointment List</h4>
+                <hr>
+                {% if appointments %}
+                <table class="table table-responsive-sm table-dark table-striped table-hover align-middle ">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Date/Time</th>
+                            <th scope="col">Name/Phone No.</th>
+                            <th scope="col">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr>
+                            <td>
+                                <p>Date: {{ appointment.appointment_date }}</p>
+                                    <p>Time: {{ appointment.appointment_time }}</p>
+                            </td>
+                            <td>
+                                <p>Name: {{ appointment.name }}</p>
+                                    <p>Phone No.: {{ appointment.phone_number }}</p>
+                                        <p><a href="" class="text-primary bg-white p-1 rounded-3"><i
+                                                    class="fa-solid fa-pen"></i></a><span class="ms-2"><a href=""
+                                                    class="text-danger bg-white p-1 rounded-3"><i
+                                                        class="fa-solid fa-trash"></i></a></span></p>
+                            </td>
+                            <td>
+                                <p>
+                                    {{ appointment.message }}
+                            </p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No appointments have been booked.</p>
+                {% endif %}
+        </div>
+    </div>
+    <!-- Pagiantion -->
+    <div class="container paginate">
+        {% if appointments.paginator.num_pages > 1 %}
+        <div class="row">
+            <div class="col">
+                <nav aria-label="...">
+                    <ul class="pagination ">
+                        {% if appointments.has_previous %}
+                        <li class="page-item disabled justify-content-center">
+                            <a class="" id="paginatePrevBtn" href="?page={{ appointments.previous_page_number }}"
+                                tabindex="-1">Prev</a>
+                        </li>
+                        {% endif %}
+                        <li class="page-item active">
+                            <a class="" href="?page={{ appointments.number }}"
+                                id="paginateNumBtn">{{ appointments.number }}<span class="sr-only">(current)</span></a>
+                        </li>
+                        {% if appointments.has_next %}
+                        <li class="page-item">
+                            <a class="" href="?page={{ appointments.next_page_number }}" id="paginateNextBtn">Next</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

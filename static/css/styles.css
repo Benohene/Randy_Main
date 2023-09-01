@@ -27,6 +27,265 @@ body {
 
 /* Nav Bar Ends */
 
+/* HOMEPAGE STARTS */
+/*hero*/
+.service-hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+    url("https://res.cloudinary.com/dtiuam2iy/image/upload/v1688020625/static/cover_3_xfokbm.jpg");
+}
+
+.home-hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+    url("https://res.cloudinary.com/dtiuam2iy/image/upload/v1688020622/static/cover_1_vag1bj.jpg");
+}
+
+.contact-hero {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)),
+    url("https://res.cloudinary.com/dtiuam2iy/image/upload/v1688020871/static/3_pmfcjn.jpg");
+}
+
+div.hero {
+  padding-top: 10.5rem;
+  padding-bottom: 6rem;
+  text-align: center;
+  color: #fff;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
+}
+
+div.hero .hero-subheading {
+  font-size: 1.5rem;
+  font-style: italic;
+  line-height: 1.5rem;
+  margin-bottom: 25px;
+  font-family: "Roboto", sans-serif;
+}
+
+div.hero .hero-heading {
+  font-size: 3.25rem;
+  font-weight: 700;
+  line-height: 3.25rem;
+  margin-bottom: 1rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.hero a {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/*End hero*/
+
+/*Welcome*/
+.welcome-section {
+  position: relative;
+  padding: 6rem;
+  background-color: #303030;
+  color: #fff;
+}
+
+.welcome-section h2 span {
+  color: #b68500;
+}
+
+.welcome-section hr {
+  border: 2px solid #b68500;
+}
+
+/*End Welcome*/
+
+/*What we do*/
+.what-we-do {
+  padding: 6rem 0;
+  background-color: rgb(0, 0, 0);
+  color: #ffffff;
+}
+
+#sub-header {
+  color: #fff;
+}
+
+.what-we-do h2.section-heading,
+.what-we-do .section-heading.h2 {
+  font-size: 2.5rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.what-we-do h3.section-subheading,
+.what-we-do .section-subheading.h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  font-family: "Roboto Slab", sans-serif;
+  margin-bottom: 4rem;
+}
+
+.service-caption-heading {
+  font-size: 20px;
+  font-weight: 700;
+}
+/*End What we do*/
+
+/* Opening Times */
+.openings {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
+    url("https://res.cloudinary.com/dtiuam2iy/image/upload/v1693554954/static/images/map-image_klljex.jpg");
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  color: #fff;
+}
+
+table .day,
+table .times {
+  background-color: transparent;
+  color: #fff;
+  font-size: 1.3rem;
+  border-bottom: 1px solid #b68500;
+}
+
+.openings .times {
+  color: #b68500;
+  font-weight: 500;
+}
+
+/* Ends Opening Times */
+
+/*Testimonial*/
+section {
+  display: grid;
+  place-items: center;
+  background-color: #303030;
+}
+
+.section-header {
+  position: relative;
+  padding-bottom: 10px;
+  text-align: center;
+  font-weight: 900;
+  padding-bottom: 25px;
+  color: #fff;
+}
+
+.section-header:after {
+  content: "";
+  height: 3px;
+  width: 200px;
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - 100px);
+  background: #fff;
+}
+
+.section-header span {
+  display: block;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.testimonials {
+  max-width: 1000px;
+  padding: 0 15px 50px;
+  margin: 0 auto 80px auto;
+}
+
+.single-item {
+  background: #4e4b4b;
+  color: #ffffff;
+  padding: 15px;
+  margin: 50px 15px;
+}
+
+.profile {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.img-area {
+  margin: 0 15px 15px 15px;
+}
+
+.img-area img {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  border: 7px solid #b68500;
+}
+
+.content {
+  font-size: 18px;
+}
+
+.content p {
+  text-align: justify;
+}
+
+.content p span {
+  font-size: 48px;
+  margin-right: 20px;
+  color: #b68500;
+}
+
+.socials i {
+  margin-right: 25px;
+}
+
+.bio h4 {
+  font-family: "Berkshire Swash", cursive;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  background-color: rgb(0, 0, 0);
+}
+
+/*End Testimonial*/
+
+/* userpanel */
+.no-appointment,
+.text-gold {
+  color: #b68500;
+}
+
+.pagination {
+  justify-content: center;
+}
+
+/* Optional: Adjust spacing and styles */
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  border-radius: 0;
+  color: rgb(0, 0, 0);
+}
+
+#paginateNextBtn, #paginatePrevBtn, #paginateNumBtn {
+  background-color: rgb(49, 49, 49);
+  color: white;
+  border-radius: 0;
+  padding: 5px;
+  margin: 3px;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+#paginateNextBtn:hover, #paginatePrevBtn:hover, #paginateNumBtn:hover {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  cursor: pointer;
+}
+
+#page-num {
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+
+
+/* End userpanel */
+
 /* Footer */
 footer {
   background-color: black;
@@ -53,6 +312,12 @@ footer .btn:hover {
 .form-check-label {
   margin: 0;
   padding: 0;
+}
+
+.accountMain input,
+.accountMain select,
+.accountMain textarea {
+  border: 1px solid #b68500;
 }
 
 /*Media Queries*/
@@ -86,5 +351,14 @@ footer .btn:hover {
 @media (max-width: 400px) {
   .map {
     max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .table-responsive-sm {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }

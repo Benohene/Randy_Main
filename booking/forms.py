@@ -10,11 +10,10 @@ class AppointmentForm(forms.ModelForm):
     class Meta:
         '''Meta class'''
         model = Appointment
-        fields = ('name', 'service', 'appointment_date', 'appointment_time', 'phone_number', 'message')
+        fields = ('name', 'appointment_date', 'appointment_time', 'phone_number', 'message')
 
         labels = {
             'name': 'Your Name',
-            'service': 'Service',
             'appointment_date': 'Date',
             'appointment_time': 'Time',
             'phone_number': 'Phone Number',

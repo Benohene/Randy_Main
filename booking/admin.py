@@ -1,18 +1,15 @@
+'''Admin View for Appointment'''
 from django.contrib import admin
-from .models import *
-
-# Register your models here.
+from .models import Appointment
 
 
-@admin.register(Appointment)
-class Appointment(admin.ModelAdmin):
-    list_display = (
-        "user",
-        "name",
-        "service",
-        "day",
-        "time",
-        "phone_number",
-    )
-    search_fields = ["name", "day"]
-    list_filter = ("time", ("day"))
+class AppointmentAdmin(admin.ModelAdmin):
+    '''Admin View for Appointment'''
+    list_display = ('customer', 'name', 'service',
+                    'appointment_date', 'appointment_time', 'phone_number', 'message')
+    list_filter = ('service', 'appointment_date', 'appointment_time')
+    search_fields = ('name', 'phone_number', 'message')
+    ordering = ('appointment_date', 'appointment_time')
+
+
+admin.site.register(Appointment, AppointmentAdmin)

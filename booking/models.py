@@ -9,6 +9,7 @@ SERVICE_CHOICES = (
     ("Kids Haircut", "Kids Haircut"),
     ("Hair Coloring", "Hair Coloring"),
     ("Hair Styling", "Hair Styling"),
+    ("Others", "Others"),
 )
 TIME_CHOICES = (
     ("3 PM", "3 PM"),
@@ -25,16 +26,16 @@ TIME_CHOICES = (
 
 
 class Appointment(models.Model):
-    user = models.ForeignKey(
+    customer = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=400, null=True, blank=True)
     service = models.CharField(
         max_length=50, choices=SERVICE_CHOICES)
-    day = models.DateField(default=datetime.now)
-    time = models.CharField(
-        max_length=10, choices=TIME_CHOICES, default="3 PM")
-    phone_number = models.CharField(max_length=15)
-    time_ordered = models.DateTimeField(default=datetime.now, blank=True)
+    appointment_date = models.DateField(default=datetime.now)
+    appointment_time = models.CharField(
+        max_length=10, choices=TIME_CHOICES, default="")
+    phone_number = models.CharField(max_length=20)
+    message = models.TextField(null=True, blank=True)
 
     class Meta:
-        ordering = ["day", "time"]
+        ordering = ['-appointment_date', '-appointment_time']

@@ -1,6 +1,8 @@
-from django.db import models
+'''booking models'''
 from datetime import datetime
+from django.db import models
 from django.contrib.auth.models import User
+
 
 # Create your models here.
 SERVICE_CHOICES = (
@@ -26,6 +28,7 @@ TIME_CHOICES = (
 
 
 class Appointment(models.Model):
+    '''appointment model'''
     customer = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=400, null=True, blank=True)
@@ -38,4 +41,5 @@ class Appointment(models.Model):
     message = models.TextField(null=True, blank=True)
 
     class Meta:
+        '''Meta class'''
         ordering = ['-appointment_date', '-appointment_time']

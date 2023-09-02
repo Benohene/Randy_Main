@@ -33,10 +33,30 @@
         <!-- display any alerts that have been raised -->
 
         {% for msg in messages %}
+        {% if msg.tags == 'error' %}
+        <div class="alert alert-danger text-center alert-dismissible fade show alert-message" id="msg" role="alert">
+            {{ msg | safe }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if msg.tags == 'success' %}
         <div class="alert alert-success text-center alert-dismissible fade show alert-message" id="msg" role="alert">
             {{ msg | safe }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+        {% endif %}
+        {% if msg.tags == 'info' %}
+        <div class="alert alert-info text-center alert-dismissible fade show alert-message" id="msg" role="alert">
+            {{ msg | safe }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if msg.tags == 'warning' %}
+        <div class="alert alert-warning text-center alert-dismissible fade show alert-message" id="msg" role="alert">
+            {{ msg | safe }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
         {% endfor %}
 
         <!-- Alert Ends -->

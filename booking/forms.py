@@ -3,14 +3,14 @@ from datetime import date
 from django import forms
 from django.core.exceptions import ValidationError
 from .models import Appointment
-
+from django.contrib.auth import get_user_model  # Import the user model
 
 class AppointmentForm(forms.ModelForm):
     '''Appointment form'''
     class Meta:
         '''Meta class'''
         model = Appointment
-        fields = ('name', 'appointment_date', 'appointment_time', 'phone_number', 'message')
+        fields = '__all__' 
 
         labels = {
             'name': 'Your Name',

@@ -1,20 +1,38 @@
 {% extends "base.html" %}
 {% load static %}
 {% load i18n %}
+{% load crispy_forms_tags %}
+{% crispy form.field_name %}
 
 
 {% block title %}{% trans "Make Appointment" %}{%endblock %}
 
 <!-- Create Appointment form -->
 {% block content %}
-
 <div class="accountMain">
-    <div class="m-3 col-12 col-md-8 mx-auto">
+    <div class="m-3 col-12 col-md-7 mx-auto">
         <form method="POST" action="{% url 'create_appointment' %}" class="form mb-2 p-2 form-style"
             enctype="multipart/form-data">
             <h1 class="text-center">Make Appointment</h1>
             {% csrf_token %}
-            {{ form|crispy }}
+
+            <!-- Display the customer field only if the user is a superuser -->
+            {% if user.is_superuser %}
+            {{ form.customer|as_crispy_field }}
+            {% endif %}
+
+            {{ form.name|as_crispy_field }}
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form.appointment_date|as_crispy_field }}
+                </div>
+                <div class="col-md-9">
+                    {{ form.appointment_time|as_crispy_field }}
+                </div>
+            </div>
+            {{ form.phone_number|as_crispy_field }}
+            {{ form.message|as_crispy_field }}
+
             <button type="submit" class="appEdit rounded-3 border-0 p-2 form-style">
                 Book Now
             </button>
@@ -22,6 +40,5 @@
         </form>
     </div>
 </div>
-
 {% endblock %}
 ```

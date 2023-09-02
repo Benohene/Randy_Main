@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% load i18n %}
-
+{% load crispy_forms_tags %}
+{% crispy form.field_name %}
 
 {% block title %}{% trans "Edit Appointment" %}{%endblock %}
 
@@ -14,23 +15,40 @@
         <form method="POST" action="{% url 'edit_appointment' appointment.id %}" class="form mb-2 p-2 form-style"
             enctype="multipart/form-data">
             <h1 class="text-center">Edit Appointment</h1>
-            {% csrf_token %}
-            {{ form|crispy }}
-            <button type="submit" class="appEdit rounded-3 border-0 p-2 form-style">
-                Update
-            </button>
-            <!-- Delete Button Triggering Modal -->
-            <button type="button" class="btn btn-danger border-0 rounded-3 p-2 form-style" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                Delete
-            </button>
-            <a href="{% url 'appointment_list' %}" class="btn btn-secondary border-0 rounded-3 p-2 form-style">Cancel</a>
+            <!-- Display the customer field only if the user is a superuser -->
+            {% if user.is_superuser %}
+            {{ form.customer|as_crispy_field }}
+            {% endif %}
+
+            {{ form.name|as_crispy_field }}
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form.appointment_date|as_crispy_field }}
+                </div>
+                    <div class="col-md-9">
+                        {{ form.appointment_time|as_crispy_field }}
+                </div>
+                    </div>
+                    {{ form.phone_number|as_crispy_field }}
+                    {{ form.message|as_crispy_field }}
+                    <button type="submit" class="appEdit rounded-3 border-0 p-2 form-style">
+                        Update
+                    </button>
+                    <!-- Delete Button Triggering Modal -->
+                    <button type="button" class="btn btn-danger border-0 rounded-3 p-2 form-style"
+                        data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        Delete
+                    </button>
+                    <a href="{% url 'appointment_list' %}"
+                        class="btn btn-secondary border-0 rounded-3 p-2 form-style">Cancel</a>
         </form>
     </div>
 </div>
 
 <!-- Delete Appointment Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered"> <!-- Add 'modal-dialog-centered' class -->
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Add 'modal-dialog-centered' class -->
         <div class="modal-content">
             <div class="modal-header bg-black text-white">
                 <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>

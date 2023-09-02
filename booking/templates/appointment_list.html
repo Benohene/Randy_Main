@@ -64,6 +64,8 @@
                     {% for appointment in appointments %}
                     <tr>
                         <td>
+                            <!-- usermame for the one who book the appointment -->
+                            <p>User: {{ appointment.customer}}</p>
                             <p>Date: {{ appointment.appointment_date }}</p>
                                 <p>Time: {{ appointment.appointment_time }}</p>
                         </td>

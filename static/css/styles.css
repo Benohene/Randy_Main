@@ -291,11 +291,35 @@ section {
   background-color: #303030;
 }
 
-.center-modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.bg-gold {
+  background-color: #b68500;
 }
+.editAppBtn{
+  background-color: #b68500;
+  padding: 5px;
+  text-decoration: none;
+  color: white;
+  border-radius: 5px;
+}
+
+.editAppBtn:hover{
+  background-color: #ad0000;
+  padding: 5px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+}
+
+.appEdit {
+  background-color: #b68500;
+  color: white;
+}
+
+.appEdit:hover {
+  background-color: #815f00;
+  color: white;
+}
+
 /* End userpanel */
 
 /* Footer */

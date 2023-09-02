@@ -22,7 +22,8 @@
                             <input type="text" class="form-control" name="q" value="{{ search_query }}"
                                 placeholder="Search...">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-dark"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <button type="submit" class="btn btn-dark"><i
+                                        class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
                     </form>
@@ -69,10 +70,11 @@
                         <td>
                             <p>Name: {{ appointment.name }}</p>
                                 <p>Phone No.: {{ appointment.phone_number }}</p>
-                                    <p><a href="{% url 'edit_appointment' appointment.id %}" class="text-primary bg-white p-1 rounded-3"><i
-                                                class="fa-solid fa-pen"></i></a><span class="ms-2"><a href=""
-                                                class="text-danger bg-white p-1 rounded-3"><i
-                                                    class="fa-solid fa-trash"></i></a></span></p>
+                                    <p>
+                                        <a href="{% url 'edit_appointment' appointment.id %}"
+                                            class="editAppBtn"><i
+                                                class="fa-solid fa-pen"></i> Edit/Delete</a>
+                                    </p>
                         </td>
                         <td>
                             <p>
@@ -117,4 +119,5 @@
         {% endif %}
     </div>
 </div>
+
 {% endblock %}

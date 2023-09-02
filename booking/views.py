@@ -59,7 +59,8 @@ def create_appointment(request):
                     appointment.save()
                     messages.success(
                         request, 'Your appointment has been booked.')
-                    return redirect('index')
+                    #return to appointment list affter booking
+                    return redirect('appointment_list')
     else:
         form = AppointmentForm()
 

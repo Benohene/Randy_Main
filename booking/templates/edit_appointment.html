@@ -16,14 +16,14 @@
             <h1 class="text-center">Edit Appointment</h1>
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-primary rounded-3 p-2 form-style">
+            <button type="submit" class="appEdit rounded-3 border-0 p-2 form-style">
                 Update
             </button>
             <!-- Delete Button Triggering Modal -->
-            <button type="button" class="btn btn-danger rounded-3 p-2 form-style" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            <button type="button" class="btn btn-danger border-0 rounded-3 p-2 form-style" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 Delete
             </button>
-            <a href="{% url 'appointment_list' %}" class="btn btn-secondary rounded-3 p-2 form-style">Cancel</a>
+            <a href="{% url 'appointment_list' %}" class="btn btn-secondary border-0 rounded-3 p-2 form-style">Cancel</a>
         </form>
     </div>
 </div>

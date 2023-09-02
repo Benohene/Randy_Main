@@ -12,43 +12,80 @@
             <h4 class="">User: <span class="text-gold">{{ user.username }}</span></h4>
             <h4 class="">Email: <span class="text-gold">{{ user.email }}</span></h4>
             <h4>Appointment List</h4>
-                <hr>
-                {% if appointments %}
-                <table class="table table-responsive-sm table-dark table-striped table-hover align-middle ">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">Date/Time</th>
-                            <th scope="col">Name/Phone No.</th>
-                            <th scope="col">Message</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for appointment in appointments %}
-                        <tr>
-                            <td>
-                                <p>Date: {{ appointment.appointment_date }}</p>
-                                    <p>Time: {{ appointment.appointment_time }}</p>
-                            </td>
-                            <td>
-                                <p>Name: {{ appointment.name }}</p>
-                                    <p>Phone No.: {{ appointment.phone_number }}</p>
-                                        <p><a href="" class="text-primary bg-white p-1 rounded-3"><i
-                                                    class="fa-solid fa-pen"></i></a><span class="ms-2"><a href=""
-                                                    class="text-danger bg-white p-1 rounded-3"><i
-                                                        class="fa-solid fa-trash"></i></a></span></p>
-                            </td>
-                            <td>
-                                <p>
-                                    {{ appointment.message }}
+            <hr>
+            <!-- Search and Sort Row -->
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Search Form -->
+                    <form method="get" class="mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" value="{{ search_query }}"
+                                placeholder="Search...">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-dark"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <!-- Sort Form -->
+                    <form method="get" class="mb-3">
+                        <div class="input-group">
+                            <select class="form-control" name="sort">
+                                <option value="">Sort By</option>
+                                <option value="date_asc" {% if sort_by == 'date_asc' %}selected{% endif %}>Date (Asc)
+                                </option>
+                                <option value="date_desc" {% if sort_by == 'date_desc' %}selected{% endif %}>Date (Desc)
+                                </option>
+                                <option value="name_asc" {% if sort_by == 'name_asc' %}selected{% endif %}>Name (Asc)
+                                </option>
+                                <option value="name_desc" {% if sort_by == 'name_desc' %}selected{% endif %}>Name (Desc)
+                                </option>
+                            </select>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-dark">Sort</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            {% if appointments %}
+            <table class="table table-responsive-sm table-dark table-striped table-hover align-middle ">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Date/Time</th>
+                        <th scope="col">Name/Phone No.</th>
+                        <th scope="col">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr>
+                        <td>
+                            <p>Date: {{ appointment.appointment_date }}</p>
+                                <p>Time: {{ appointment.appointment_time }}</p>
+                        </td>
+                        <td>
+                            <p>Name: {{ appointment.name }}</p>
+                                <p>Phone No.: {{ appointment.phone_number }}</p>
+                                    <p><a href="" class="text-primary bg-white p-1 rounded-3"><i
+                                                class="fa-solid fa-pen"></i></a><span class="ms-2"><a href=""
+                                                class="text-danger bg-white p-1 rounded-3"><i
+                                                    class="fa-solid fa-trash"></i></a></span></p>
+                        </td>
+                        <td>
+                            <p>
+                                {{ appointment.message }}
                             </p>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <p>No appointments have been booked.</p>
-                {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No appointments have been booked.</p>
+            {% endif %}
         </div>
     </div>
     <!-- Pagiantion -->

@@ -287,6 +287,15 @@ section {
   color: white;
 }
 
+.bg-grey {
+  background-color: #303030;
+}
+
+.center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /* End userpanel */
 
 /* Footer */

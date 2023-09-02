@@ -69,8 +69,6 @@ def create_appointment(request):
 @login_required
 def appointment_list(request):
     '''appointment list view'''
-    #display nothing in sort by and search by
-
     # Get the search query from the request
     search_query = request.GET.get('q', '')
 
@@ -90,6 +88,11 @@ def appointment_list(request):
             Q(appointment_date__icontains=search_query) |
             Q(appointment_time__icontains=search_query)
         )
+    # raise error if no appointment found from search
+        if not appointments:
+            messages.error(request, 'No results found matching your query.')
+            return redirect(reverse('appointment_list'))
+        
 
     # Sorting logic based on the 'sort' parameter
     sort_by = request.GET.get('sort', '')
@@ -113,3 +116,66 @@ def appointment_list(request):
         'sort_by': sort_by,
     }
     return render(request, template, context)
+
+
+@login_required
+def edit_appointment(request, appointment_id):
+    '''edit appointment view'''
+    appointment = get_object_or_404(Appointment, pk=appointment_id)
+
+    # Check if the user has permission to edit this appointment
+    if not request.user.is_superuser and appointment.customer != request.user:
+        messages.error(request, 'You do not have permission to edit this appointment.')
+        return redirect('appointment_list')
+
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            # Check if the selected time slot is already booked for the selected day
+            appointment_date = form.cleaned_data['appointment_date']
+            appointment_time = form.cleaned_data['appointment_time']
+
+            if Appointment.objects.filter(appointment_date=appointment_date,
+                                          appointment_time=appointment_time).exclude(pk=appointment_id).exists():
+                messages.error(
+                    request, 'This time slot is already booked. Please select another time slot.')
+                return redirect('edit_appointment', appointment_id)
+            else:
+                # Check if the selected choice is in the past
+                if appointment_date < datetime.now().date():
+                    messages.error(
+                        request, 'You cannot select a date in the past.')
+                    return redirect('edit_appointment', appointment_id)
+                else:
+                    # Associate the appointment with the currently logged-in user
+                    if not request.user.is_superuser:
+                        appointment.customer = request.user
+                    form.save()
+                    messages.success(
+                        request, 'Your appointment has been updated.')
+                    return redirect('appointment_list')
+    else:
+        form = AppointmentForm(instance=appointment)
+
+    template = 'edit_appointment.html'
+    context = {
+        'form': form,
+        'appointment': appointment,
+    }
+    return render(request, template, context)
+
+
+# delete appointment view
+@login_required
+def delete_appointment(request, appointment_id):
+    '''delete appointment view'''
+    appointment = get_object_or_404(Appointment, pk=appointment_id)
+
+    # Check if the user has permission to delete this appointment
+    if not request.user.is_superuser and appointment.customer != request.user:
+        messages.error(request, 'You do not have permission to delete this appointment.')
+        return redirect('appointment_list')
+
+    appointment.delete()
+    messages.success(request, 'Your appointment has been deleted.')
+    return redirect('appointment_list')

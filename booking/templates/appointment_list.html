@@ -69,7 +69,7 @@
                         <td>
                             <p>Name: {{ appointment.name }}</p>
                                 <p>Phone No.: {{ appointment.phone_number }}</p>
-                                    <p><a href="" class="text-primary bg-white p-1 rounded-3"><i
+                                    <p><a href="{% url 'edit_appointment' appointment.id %}" class="text-primary bg-white p-1 rounded-3"><i
                                                 class="fa-solid fa-pen"></i></a><span class="ms-2"><a href=""
                                                 class="text-danger bg-white p-1 rounded-3"><i
                                                     class="fa-solid fa-trash"></i></a></span></p>

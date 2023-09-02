@@ -8,4 +8,6 @@ urlpatterns = [
     path('create_appointment/', views.create_appointment,
          name='create_appointment'),
     path('appointment_list/', views.appointment_list, name='appointment_list'),
+    path('appointment_edit/<int:appointment_id>/', views.edit_appointment, name='edit_appointment'),
+    path('appointment_delete/<int:appointment_id>/', views.delete_appointment, name='delete_appointment'),
 ]

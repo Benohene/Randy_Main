@@ -294,7 +294,7 @@ section {
 .bg-gold {
   background-color: #b68500;
 }
-.editAppBtn{
+.editAppBtn {
   background-color: #b68500;
   padding: 5px;
   text-decoration: none;
@@ -302,7 +302,7 @@ section {
   border-radius: 5px;
 }
 
-.editAppBtn:hover{
+.editAppBtn:hover {
   background-color: #ad0000;
   padding: 5px;
   text-decoration: none;
@@ -321,6 +321,38 @@ section {
 }
 
 /* End userpanel */
+
+/*SERVICE PAGE*/
+/* Price Section-Service Page */
+.price-section {
+  color: #fff;
+}
+
+.price-section .price,
+.time {
+  width: 80px;
+  color: #ce9c6b;
+  font-size: 16px;
+}
+
+.price-section hr {
+  border: 2px dotted #ffffff;
+  padding: 0;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.price-section .text h3 {
+  width: calc(100% - 70px);
+  font-size: 18px;
+}
+
+.price-section .text h3 span {
+  background: #000000;
+  padding-right: 20px;
+}
+
+/* End Price Section-Service Page */
 
 /* Footer */
 footer {

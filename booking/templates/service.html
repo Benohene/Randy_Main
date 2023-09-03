@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Service-Randy Barber{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- hero with appointment -->
+<div class="hero service-hero">
+    <div class="container">
+        <div class="hero-subheading">We offer you the Best - RANDY BARBER</div>
+        <div class="hero-heading text-uppercase">services</div>
+        <a class="btn btn-warning btn-xl text-uppercase" href="{% url 'create_appointment' %}">Book Appointment</a>
+    </div>
+</div>
+<!-- hero with appointment Ends -->
+
+
+<!--Service Note-->
+<section class="welcome-section pt-5 pb-5">
+    <div class="container">
+        <div class="row justify-content-center align-content-center">
+            <div class="col-md-9 col-sm-11 text-center ">
+                <h2 class="mb-4">Our Services</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-sm-12 text-center">
+                <p>We provide all services as a Barbering Shop. We give you nothing but the best.
+                    We have experience in all sorts of hairs and how we handle it is a joy for all
+                    our clients/customers. We provide all sorts of haircuts ranging from Europe to America
+                    to Africa and around the world. We also provide services in Hair colouring,
+                    Beard trimming and Waxing, Shaving and Shaping, Sporting Waves, Styling and many more.
+                    We also provide services for Women and Kids. </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Service Note-->
+
+
+<!-- Prices-->
+<section class=" price-section bg-black p-5">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3 mt-5 pt-5">
+            <div class="col-md-7 heading-section text-center">
+                <h2 class="mb-4"> Pricing</h2>
+                <hr>
+                <p class="mt-5">We offer the best and affordable pricing you can ever get in Germany</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <div class="d-flex text align-items-center">
+                        <h3><span>Men's Haircut</span></h3>
+                        <span class="price">€20.00</span>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <div class="d-flex text align-items-center">
+                        <h3><span>Shaping</span></h3>
+                        <span class="price">€10.00</span>
+                    </div>
+                    <hr>
+                </div>
+                <div>
+                    <div class="d-flex text align-items-center">
+                        <h3><span>Beard Trimming</span></h3>
+                        <span class="price">€15.00</span>
+                    </div>
+                    <hr>
+                </div>
+                <div>
+                    <div class="d-flex text align-items-center">
+                        <h3><span>Sporting Waves</span></h3>
+                        <span class="price">€20.00</span>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div>
+                    <div class="d-flex text align-items-center">
+                        <h3><span>Women's Haircut</span></h3>
+                        <span class="price">€20.00</span>
+                    </div>
+                    <hr>
+                </div>
+                <div>
+                    <div class="d-flex text align-items-center">
+                        <h3><span>Kid's Haircut</span></h3>
+                        <span class="price">€20.00</span>
+                    </div>
+                    <hr>
+                </div>
+                <div>
+                    <div class="d-flex text align-items-center">
+                        <h3><span>Styling</span></h3>
+                        <span class="price">€25.00</span>
+                    </div>
+                    <hr>
+                </div>
+                <div>
+                    <div class="d-flex text align-items-center">
+                        <h3><span>Beard Waxing</span></h3>
+                        <span class="price">€20.00</span>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Prices-->
+
+<!-- Testomonial -->
+{% include 'includes/testimonial.html' %}
+<!-- End Testimonial -->
+
+{% endblock content %}

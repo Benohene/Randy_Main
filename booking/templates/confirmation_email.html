@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>Appointment Confirmation</h1>
+    
+    <p>Hello {{ user.username }},</p>
+    
+    <p>Your appointment has been successfully booked!</p>
+    
+    <p>Appointment Details:</p>
+    <ul>
+        <li>Date: {{ appointment_date }}</li>
+        <li>Time: {{ appointment_time }}</li>
+    </ul>
+    
+    <p>Thank you for choosing our service. If you have any questions or need to make changes to your appointment, please contact us.</p>
+    
+    <p>Best regards,<br> Your Appointment Team</p>
+</body>
+</html>

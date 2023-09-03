@@ -7,6 +7,10 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 
 
 def index(request):
@@ -59,7 +63,30 @@ def create_appointment(request):
                     appointment.save()
                     messages.success(
                         request, 'Your appointment has been booked.')
-                    #return to appointment list affter booking
+
+                    # Send an email to the owner
+                    owner_email = settings.DEFAULT_FROM_EMAIL  # Replace with the owner's email
+                    customer_email = request.user.email
+                    subject = 'New Appointment Booking'
+                    message = f'A new appointment has been booked by {request.user.username} on {appointment_date} at {appointment_time}.'
+                    send_mail(subject, message, [customer_email],
+                              [owner_email], fail_silently=False)
+
+                    # Send a confirmation email to the customer
+                    customer_email = request.user.email
+                    subject = 'Appointment Confirmation'
+                    context = {
+                        'user': request.user,
+                        'appointment_date': appointment_date,
+                        'appointment_time': appointment_time,
+                    }
+                    html_message = render_to_string(
+                        'confirmation_email.html', context)
+                    plain_message = strip_tags(html_message)
+                    send_mail(subject, plain_message, 'randybarber.info@gmail.com',
+                              [customer_email], html_message=html_message, fail_silently=False)
+
+                    # Return to the appointment list after booking
                     return redirect('appointment_list')
     else:
         form = AppointmentForm()
@@ -93,18 +120,21 @@ def appointment_list(request):
         if not appointments:
             messages.error(request, 'No results found matching your query.')
             return redirect(reverse('appointment_list'))
-        
 
     # Sorting logic based on the 'sort' parameter
     sort_by = request.GET.get('sort', '')
     if sort_by == 'date_asc':
-        appointments = appointments.order_by('appointment_date', 'appointment_time')
+        appointments = appointments.order_by(
+            'appointment_date', 'appointment_time')
     elif sort_by == 'date_desc':
-        appointments = appointments.order_by('-appointment_date', '-appointment_time')
+        appointments = appointments.order_by(
+            '-appointment_date', '-appointment_time')
     elif sort_by == 'name_asc':
-        appointments = appointments.order_by('customer__username', 'appointment_date', 'appointment_time')
+        appointments = appointments.order_by(
+            'customer__username', 'appointment_date', 'appointment_time')
     elif sort_by == 'name_desc':
-        appointments = appointments.order_by('-customer__username', '-appointment_date', '-appointment_time')
+        appointments = appointments.order_by(
+            '-customer__username', '-appointment_date', '-appointment_time')
 
     paginator = Paginator(appointments, 3)
     page_number = request.GET.get('page')
@@ -126,7 +156,8 @@ def edit_appointment(request, appointment_id):
 
     # Check if the user has permission to edit this appointment
     if not request.user.is_superuser and appointment.customer != request.user:
-        messages.error(request, 'You do not have permission to edit this appointment.')
+        messages.error(
+            request, 'You do not have permission to edit this appointment.')
         return redirect('appointment_list')
 
     if request.method == 'POST':
@@ -174,7 +205,8 @@ def delete_appointment(request, appointment_id):
 
     # Check if the user has permission to delete this appointment
     if not request.user.is_superuser and appointment.customer != request.user:
-        messages.error(request, 'You do not have permission to delete this appointment.')
+        messages.error(
+            request, 'You do not have permission to delete this appointment.')
         return redirect('appointment_list')
 
     appointment.delete()

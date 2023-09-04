@@ -388,6 +388,77 @@ footer .btn:hover {
   border: 1px solid #b68500;
 }
 
+/*CONTACT PAGE*/
+/* Map */
+.map-content {
+  width: 100%;
+  background-color: #000000;
+}
+
+.map {
+  filter: grayscale(50%) invert(100%);
+}
+
+/* End Map */
+
+/* Contact */
+.contact-section {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
+      url("https://res.cloudinary.com/dtiuam2iy/image/upload/v1688020872/static/map-image_mfbivr.png");
+  color: #ffffff;
+}
+
+.btn.btn-primary {
+  background: #b68500;
+  border: 1px solid #ce9c6b;
+  color: #fff;
+  border-radius: 25px;
+}
+
+.contact-form .form-control {
+  border: transparent;
+  border-bottom: 1px solid rgba(248, 248, 248, 0.2);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 0;
+  padding-right: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: 0px;
+}
+
+textarea {
+  overflow: auto;
+  resize: vertical;
+}
+
+.contact-form textarea.form-control {
+  height: inherit;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #ffffff;
+}
+
+.contact-details a,
+.address {
+  text-decoration: none;
+  color: #b68500;
+  font-weight: 500;
+}
+
+iframe {
+  width: 100%;
+}
+
+/* End Contact */
+
+.no-appointment {
+  color: #b68500;
+}
+
+
 /*Media Queries*/
 @media (min-width: 768px) {
   div.hero {

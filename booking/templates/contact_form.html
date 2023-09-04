@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% crispy form.field_name %}
+
+{% block title %}Contact-Randy Barber{% endblock title %}
+
+{% block content %}
+<!-- hero with appointment -->
+<div class="hero contact-hero">
+    <div class="container">
+        <div class="hero-subheading">Get in Touch with Us!</div>
+        <div class="hero-heading text-uppercase">contact us</div>
+        <a class="btn btn-warning btn-xl text-uppercase" href="{% url 'create_appointment' %}">Book Appointment</a>
+    </div>
+</div>
+<!-- hero with appointment Ends -->
+
+<!-- Welcome Section -->
+{% include 'includes/welcome.html' %}
+<!-- Welcome Section End -->
+
+<!-- Contact Form -->
+<section class="contact-section pt-5 pb-5">
+    <div class="container mt-5">
+        <div class="row block-9">
+            <div class="col-md-4 contact-info ">
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <h2 class="h4">Contact Information</h2>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <p class="contact-details"><span>Address:</span>
+                            <p class="address"> Bahnhofstr 10, 52064 Aachen <br> 5 Minutes walk from Aachen BahnHof
+                            </p>
+
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <p class="contact-details">Phone:<span class="text-gold"> +49 1521 9453822</span></p>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <p class="contact-details">Email:<span class="text-gold"> randybarber.info@gmail.com</span> </p>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <p class="contact-details">Website:<span class="text-gold"> www.randybarberaachen</span> </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <!-- forms -->
+                <div class="container">
+                    <h2>Contact Us</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form.name|as_crispy_field }}
+                            </div>
+                                <div class="col-md-6">
+                                    {{ form.email|as_crispy_field }}
+                            </div>
+                                </div>
+                                {{ form.phone_number|as_crispy_field }}
+                                {{ form.message_body|as_crispy_field }}
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <!-- forms end -->
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- End Contact Form -->
+<!-- Locate Us -->
+<section>
+    <div class="container-fluid p-5 mb-5 map-content">
+        <div class="map">
+            <h2 class="text-center pb-3">Locate Us</h2>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2523.3034154049333!2d6.091311!3d50.769948799999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c09bdf5927d883%3A0x216893f6a4ddd49e!2sBahnhofstra%C3%9Fe%2010%2C%2052064%20Aachen!5e0!3m2!1sen!2sde!4v1688028566586!5m2!1sen!2sde"
+                height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+<!-- End Locate Us -->
+{% endblock content %}

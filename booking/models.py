@@ -33,3 +33,16 @@ class Appointment(models.Model):
     class Meta:
         '''Meta class'''
         ordering = ['-appointment_date', '-appointment_time']
+
+
+class Contact(models.Model):
+    '''contact model'''
+    name = models.CharField(max_length=400)
+    email = models.EmailField(max_length=254)
+    phone_number = models.CharField(max_length=20)
+    message_body = models.TextField(null=False, blank=False)
+    replied = models.BooleanField(default=False)
+
+    class Meta:
+        '''Meta class'''
+        ordering = ['-id', 'replied', 'name']

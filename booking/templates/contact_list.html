@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2>Contact Form Submissions</h2>
+
+    <!-- Add this to your contact_list.html template -->
+
+    <!-- Search form -->
+    <form method="get">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="q" placeholder="Search...">
+            <button class="btn btn-outline-secondary bg-gold text-light" type="submit">Search</button>
+        </div>
+    </form>
+
+    <!-- Table header with sorting options -->
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><a href="?sort_by=name" class="text-gold">Name</a></th>
+                    <th><a href="?sort_by=email" class="text-gold">Email</a></th>
+                    <th><a href="?sort_by=phone_number" class="text-gold">Phone Number</a></th>
+                    <th class="text-gold">Message</th>
+                    <th><a href="?sort_by=replied" class="text-gold">Replied</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact in contacts %}
+                <tr>
+                    <td>{{ contact.name }}</td>
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.phone_number }}</td>
+                    <td>{{ contact.message_body }}</td>
+                    <td>{% if contact.replied %}Yes{% else %}No{% endif %}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No contact form submissions available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

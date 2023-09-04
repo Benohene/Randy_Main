@@ -11,6 +11,9 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
+from django.core.mail import EmailMessage
+from .models import Contact
+from .forms import ContactForm
 
 
 def index(request):
@@ -23,9 +26,78 @@ def service(request):
     return render(request, 'service.html')
 
 
-def contact(request):
+def contact_view(request):
     '''contact view'''
-    return render(request, 'contact.html')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Get data from the POST request
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            phone_number = request.POST.get('phone_number')
+            message_body = request.POST.get('message_body')
+
+            # Create a Contact object and save it to the database
+            contact = Contact.objects.create(
+                name=name,
+                email=email,
+                phone_number=phone_number,
+                message_body=message_body
+            )
+
+            # Send an email to the owner
+            owner_email = settings.DEFAULT_FROM_EMAIL  # Replace with the owner's email address
+            subject = f'New message from {name}'
+            message = f'Name: {name}\nEmail: {email}\nPhone Number: {phone_number}\nMessage: {message_body}'
+            email_message = EmailMessage(subject, message, to=[owner_email])
+            email_message.send()
+
+            # Send a confirmation email to the customer
+            customer_subject = 'Message Received Confirmation'
+            customer_message = render_to_string('contact_confirmation_email.html', {'name': name})
+            customer_email = EmailMessage(customer_subject, customer_message, to=[email])
+            customer_email.send()
+
+            # Set replied to True for the contact object
+            contact.replied = False
+            contact.save()
+
+            # Display a success message
+            messages.success(request, 'Your message has been sent successfully!')
+            return redirect('contact')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact_form.html', {'form': form})
+
+
+@login_required
+def contact_list_view(request):
+    '''contact list view'''
+    contacts = Contact.objects.all()
+
+    # Sorting
+    sort_by = request.GET.get('sort_by', None)
+    if sort_by:
+        if sort_by == 'name':
+            contacts = contacts.order_by('name')
+        elif sort_by == 'email':
+            contacts = contacts.order_by('email')
+        elif sort_by == 'phone_number':
+            contacts = contacts.order_by('phone_number')
+
+    # Searching
+    query = request.GET.get('q', None)
+    if query:
+        contacts = contacts.filter(
+            Q(name__icontains=query) |
+            Q(email__icontains=query) |
+            Q(phone_number__icontains=query)
+        )
+
+    return render(request, 'contact_list.html', {'contacts': contacts})
 
 
 @login_required

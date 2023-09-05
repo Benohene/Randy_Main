@@ -23,6 +23,9 @@
         <!-- Inclusive CSS -->
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <title>{% block title %}Randy Barber{% endblock title %}</title>
+
+        {% block extra_js %}
+        {% endblock extra_js %}
     </head>
 
     <body>
@@ -82,7 +85,6 @@
         <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"
             integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/2730ac997a.js" crossorigin="anonymous"></script>
-        <script src="{% static 'js/main.js' %}"></script>
         <script>
             setTimeout(function () {
                 let messages = document.getElementById('msg');
@@ -93,7 +95,7 @@
         {% endblock prejs %}
 
         {% block postjs %}
-        {% endblock postjs %}
+        {% endblock %}
     </body>
 
 </html>

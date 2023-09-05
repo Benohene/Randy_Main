@@ -16,9 +16,9 @@ class AppointmentAdmin(admin.ModelAdmin):
 # contact admin site
 class ContactAdmin(admin.ModelAdmin):
     '''Admin View for Contact'''
-    list_display = ('name', 'email', 'phone_number', 'message_body', 'replied')
-    list_filter = ('replied',)
-    search_fields = ('name', 'email', 'phone_number', 'message_body')
+    list_display = ('name', 'email', 'phone_number', 'message_body', 'date', 'replied')
+    list_filter = ('replied', 'date')
+    search_fields = ('name', 'email', 'phone_number', 'message_body', 'date')
     ordering = ('-id', 'replied', 'name')
 
 

@@ -42,7 +42,8 @@ def contact_view(request):
                 name=name,
                 email=email,
                 phone_number=phone_number,
-                message_body=message_body
+                message_body=message_body,
+                replied=False,
             )
 
             # Send an email to the owner
@@ -80,13 +81,34 @@ def contact_list_view(request):
 
     # Sorting
     sort_by = request.GET.get('sort_by', None)
+    descending = request.GET.get('descending', False)
+
     if sort_by:
         if sort_by == 'name':
-            contacts = contacts.order_by('name')
+            if descending:
+                contacts = contacts.order_by('-name')
+            else:
+                contacts = contacts.order_by('name')
         elif sort_by == 'email':
-            contacts = contacts.order_by('email')
+            if descending:
+                contacts = contacts.order_by('-email')
+            else:
+                contacts = contacts.order_by('email')
         elif sort_by == 'phone_number':
-            contacts = contacts.order_by('phone_number')
+            if descending:
+                contacts = contacts.order_by('-phone_number')
+            else:
+                contacts = contacts.order_by('phone_number')
+        elif sort_by == 'date':
+            if descending:
+                contacts = contacts.order_by('-date')
+            else:
+                contacts = contacts.order_by('date')
+        elif sort_by == 'replied':
+            if descending:
+                contacts = contacts.order_by('-replied')
+            else:
+                contacts = contacts.order_by('replied')
 
     # Searching
     query = request.GET.get('q', None)
@@ -94,10 +116,11 @@ def contact_list_view(request):
         contacts = contacts.filter(
             Q(name__icontains=query) |
             Q(email__icontains=query) |
-            Q(phone_number__icontains=query)
+            Q(phone_number__icontains=query) |
+            Q(message_body__icontains=query)
         )
 
-    return render(request, 'contact_list.html', {'contacts': contacts})
+    return render(request, 'contact_list.html', {'contacts': contacts, 'sort_by': sort_by, 'descending': descending})
 
 
 @login_required

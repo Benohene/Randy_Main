@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% block title %}Messages-Randy Barber{% endblock title %}
+
+
 {% block content %}
 <div class="container mt-3">
     <h2>Contact Form Submissions</h2>
@@ -16,14 +19,51 @@
 
     <!-- Table header with sorting options -->
     <div class="table-responsive">
+        <!-- Table header with sorting options -->
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th><a href="?sort_by=name" class="text-gold">Name</a></th>
-                    <th><a href="?sort_by=email" class="text-gold">Email</a></th>
-                    <th><a href="?sort_by=phone_number" class="text-gold">Phone Number</a></th>
+                    <th>
+                        <a href="?sort_by=name{% if sort_by == 'name' and not descending %}&descending=1{% endif %}"
+                            class="text-gold">Name
+                            {% if sort_by == 'name' %}
+                            {% if descending %}&uarr;{% else %}&darr;{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort_by=email{% if sort_by == 'email' and not descending %}&descending=1{% endif %}"
+                            class="text-gold">Email
+                            {% if sort_by == 'email' %}
+                            {% if descending %}&uarr;{% else %}&darr;{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort_by=phone_number{% if sort_by == 'phone_number' and not descending %}&descending=1{% endif %}"
+                            class="text-gold">Phone Number
+                            {% if sort_by == 'phone_number' %}
+                            {% if descending %}&uarr;{% else %}&darr;{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
                     <th class="text-gold">Message</th>
-                    <th><a href="?sort_by=replied" class="text-gold">Replied</a></th>
+                    <th>
+                        <a href="?sort_by=date{% if sort_by == 'date' and not descending %}&descending=1{% endif %}"
+                            class="text-gold">Date
+                            {% if sort_by == 'date' %}
+                            {% if descending %}&uarr;{% else %}&darr;{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort_by=replied{% if sort_by == 'replied' and not descending %}&descending=1{% endif %}"
+                            class="text-gold">Replied
+                            {% if sort_by == 'replied' %}
+                            {% if descending %}&uarr;{% else %}&darr;{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +73,7 @@
                     <td>{{ contact.email }}</td>
                     <td>{{ contact.phone_number }}</td>
                     <td>{{ contact.message_body }}</td>
+                    <td>{{ contact.date }}</td>
                     <td>{% if contact.replied %}Yes{% else %}No{% endif %}</td>
                 </tr>
                 {% empty %}
@@ -43,6 +84,5 @@
             </tbody>
         </table>
     </div>
-
 </div>
 {% endblock %}

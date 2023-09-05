@@ -1,5 +1,6 @@
 '''booking models'''
 from datetime import datetime
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -41,6 +42,7 @@ class Contact(models.Model):
     email = models.EmailField(max_length=254)
     phone_number = models.CharField(max_length=20)
     message_body = models.TextField(null=False, blank=False)
+    date = models.DateTimeField(default=timezone.now)
     replied = models.BooleanField(default=False)
 
     class Meta:

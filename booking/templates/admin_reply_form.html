@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Reply to Contact Message</h2>
+
+    <p><strong>Original Message:</strong></p>
+    <p><strong>Name:</strong> {{ contact.name }}</p>
+        <p><strong>Email:</strong> {{ contact.email }}</p>
+            <p><strong>Phone Number:</strong> {{ contact.phone_number }}</p>
+                <p><strong>Message:</strong></p>
+                <p>{{ contact.message_body }}</p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+
+                        <button type="submit" class="btn btn-primary">Send Reply</button>
+                    </form>
+</div>
+{% endblock %}

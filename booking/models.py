@@ -48,3 +48,17 @@ class Contact(models.Model):
     class Meta:
         '''Meta class'''
         ordering = ['-id', 'replied', 'name']
+ 
+
+class ContactReply(models.Model):
+    '''contact reply model'''
+    contact_message = models.ForeignKey(Contact, on_delete=models.CASCADE)
+    reply_text = models.TextField()
+    reply_date = models.DateTimeField(auto_now_add=True)
+    replied_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    replied = models.BooleanField(default=False)
+    
+    class Meta:
+        '''Meta class'''
+        verbose_name_plural = 'Contact Replies'
+        ordering = ['-id', 'replied', 'contact_message']

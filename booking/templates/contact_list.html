@@ -24,6 +24,14 @@
             <thead>
                 <tr>
                     <th>
+                        <a href="?sort_by=id{% if sort_by == 'id' and not descending %}&descending=1{% endif %}"
+                            class="text-gold">ID
+                            {% if sort_by == 'id' %}
+                            {% if descending %}&uarr;{% else %}&darr;{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
                         <a href="?sort_by=name{% if sort_by == 'name' and not descending %}&descending=1{% endif %}"
                             class="text-gold">Name
                             {% if sort_by == 'name' %}
@@ -69,12 +77,20 @@
             <tbody>
                 {% for contact in contacts %}
                 <tr>
+                    <td>{{ contact.id }}</td>
                     <td>{{ contact.name }}</td>
                     <td>{{ contact.email }}</td>
                     <td>{{ contact.phone_number }}</td>
                     <td>{{ contact.message_body }}</td>
                     <td>{{ contact.date }}</td>
-                    <td>{% if contact.replied %}Yes{% else %}No{% endif %}</td>
+                    <td>
+                        <!-- if replied display reply or else display reply button -->
+                        {% if contact.replied %}
+                        <span class="text-black"><strong>Replied</strong></span>
+                        {% else %}
+                        <a href="{% url 'reply_to_contact' contact.id %}" class="btn btn-primary">Reply</a>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>

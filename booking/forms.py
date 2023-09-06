@@ -3,7 +3,6 @@ from datetime import date
 from django import forms
 from django.core.exceptions import ValidationError
 from .models import Appointment
-from django.contrib.auth import get_user_model  # Import the user model
 
 
 class AppointmentForm(forms.ModelForm):
@@ -11,7 +10,7 @@ class AppointmentForm(forms.ModelForm):
     class Meta:
         '''Meta class'''
         model = Appointment
-        fields = '__all__' 
+        fields = '__all__'
 
         labels = {
             'name': 'Your Name',
@@ -37,11 +36,13 @@ class AppointmentForm(forms.ModelForm):
         appointment_date = self.cleaned_data.get('appointment_date')
 
         # Check if the selected date is a Sunday or Monday
-        if appointment_date and appointment_date.weekday() in [6, 0]:  # Sunday is 6, Monday is 0
-            raise ValidationError("Appointments cannot be scheduled on Sundays or Mondays.")
+        # Sunday is 6, Monday is 0
+        if appointment_date and appointment_date.weekday() in [6, 0]:
+            raise ValidationError(
+                "Appointments cannot be scheduled on Sundays or Mondays.")
 
         return appointment_date
-    
+
     def clean_appointment_time(self):
         '''Check if the selected time is available'''
         appointment_time = self.cleaned_data.get('appointment_time')
@@ -50,17 +51,19 @@ class AppointmentForm(forms.ModelForm):
         # Check if the selected time is available
         if appointment_time and appointment_date:
             # Get all the appointments for the selected date
-            appointments = Appointment.objects.filter(appointment_date=appointment_date)
+            appointments = Appointment.objects.filter(
+                appointment_date=appointment_date)
 
             # Get a list of all the times for the selected date
             times = [appointment.appointment_time for appointment in appointments]
 
             # Check if the selected time is in the list of times
             if appointment_time in times:
-                raise ValidationError("This time is not available. Please select a different time.")
+                raise ValidationError(
+                    "This time is not available. Please select a different time.")
 
         return appointment_time
-    
+
     def clean(self):
         '''Check if the selected date is in the past'''
         cleaned_data = super().clean()
@@ -81,12 +84,38 @@ class ContactForm(forms.Form):
     message_body = forms.CharField(widget=forms.Textarea)
 
     def clean(self):
-        '''Check if the email is already in the database'''
+        '''Check if the name is a number'''
         cleaned_data = super().clean()
-        email = cleaned_data.get('email')
+        name = cleaned_data.get('name')
 
-        # Check if the email is already in the database
-        if email and get_user_model().objects.filter(email=email).exists():
-            raise ValidationError("This email is already in use.")
+        # Check if the name is a number
+        if name and name.isdigit():
+            raise ValidationError("Please enter a valid name.")
 
         return cleaned_data
+
+
+class ContactReplyForm(forms.Form):
+    '''Contact reply form'''
+    reply_text = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        self.contact_message = kwargs.pop('contact_message', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, user):
+        '''Save the reply'''
+        reply_text = self.cleaned_data.get('reply_text')
+
+        # Create a new ContactReply object
+        contact_reply = self.contact_message.contactreply_set.create(
+            reply_text=reply_text,
+            replied_by=user,
+            replied=False,
+        )
+
+        # Update the replied field of the Contact object
+        self.contact_message.replied = True
+        self.contact_message.save()
+
+        return contact_reply

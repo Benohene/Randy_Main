@@ -17,17 +17,17 @@
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'service' %}">Service</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-                {% if request.user.is_authenticated %}
-                <li class="nav-item signup-btn">
-                    <a class="nav-link {% if url_name == 'account_logout' %}active{% endif %}"
-                        href="/accounts/logout/">Logout</a>
-                </li>
                 {% if request.user.is_superuser %}
                 <li class="nav-item signup-btn">
                     <a class="nav-link {% if url_name == '#' %}active{% endif %}" href="{% url 'contact_list' %}"><i
                             class="fa-solid fa-envelope"></i> Messages</a>
                 </li>
                 {% endif %}
+                {% if request.user.is_authenticated %}
+                <li class="nav-item signup-btn">
+                    <a class="nav-link {% if url_name == 'account_logout' %}active{% endif %}"
+                        href="/accounts/logout/">Logout</a>
+                </li>
                 <li class="nav-item signup-btn">
                     <a class="nav-link navUsername {% if url_name == '#' %}active{% endif %}"
                         href="{% url 'appointment_list' %}"><i class="fa-solid fa-circle-user"></i> User

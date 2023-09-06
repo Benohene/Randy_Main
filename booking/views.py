@@ -12,8 +12,8 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
 from django.core.mail import EmailMessage
-from .models import Contact
-from .forms import ContactForm
+from .models import Contact, ContactReply
+from .forms import ContactForm, ContactReplyForm
 
 
 def index(request):
@@ -47,7 +47,8 @@ def contact_view(request):
             )
 
             # Send an email to the owner
-            owner_email = settings.DEFAULT_FROM_EMAIL  # Replace with the owner's email address
+            # Replace with the owner's email address
+            owner_email = settings.DEFAULT_FROM_EMAIL
             subject = f'New message from {name}'
             message = f'Name: {name}\nEmail: {email}\nPhone Number: {phone_number}\nMessage: {message_body}'
             email_message = EmailMessage(subject, message, to=[owner_email])
@@ -55,16 +56,19 @@ def contact_view(request):
 
             # Send a confirmation email to the customer
             customer_subject = 'Message Received Confirmation'
-            customer_message = render_to_string('contact_confirmation_email.html', {'name': name})
-            customer_email = EmailMessage(customer_subject, customer_message, to=[email])
+            customer_message = render_to_string(
+                'contact_confirmation_email.html', {'name': name})
+            customer_email = EmailMessage(
+                customer_subject, customer_message, to=[email])
             customer_email.send()
 
             # Set replied to True for the contact object
-            contact.replied = False
+            contact.replied = True
             contact.save()
 
             # Display a success message
-            messages.success(request, 'Your message has been sent successfully!')
+            messages.success(
+                request, 'Your message has been sent successfully!')
             return redirect('contact')
         else:
             messages.error(request, 'Please correct the error below.')
@@ -75,8 +79,57 @@ def contact_view(request):
 
 
 @login_required
+def reply_to_contact(request, contact_id):
+    '''reply to contact view'''
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You do not have permission to view this page.')
+        return redirect('index')
+    contact = get_object_or_404(Contact, pk=contact_id)
+
+    if request.method == 'POST':
+        form = ContactReplyForm(request.POST)
+        if form.is_valid():
+            reply_text = form.cleaned_data['reply_text']
+
+            # Create a ContactReply object
+            reply = ContactReply(
+                contact_message=contact,
+                reply_text=reply_text,
+                replied_by=request.user,  # Assuming you are using Django's authentication system
+                replied=True,
+            )
+            reply.save()
+            # set replied to True for the contact object and save it
+
+            contact.replied = True
+            contact.save()
+
+            # Send an email to the original message sender
+            send_mail(
+                f'Re: Thanks {contact.name}. Reply on your contact with us',
+                reply_text,
+                settings.DEFAULT_FROM_EMAIL,  # Replace with your email address
+                [contact.email],  # Use the email address from the original message
+                fail_silently=False,
+            )
+            messages.success(request, 'Your reply has been sent successfully!')
+            # Redirect to a list of all contact messages
+            return redirect('contact_list')
+
+    else:
+        form = ContactReplyForm()
+
+    return render(request, 'admin_reply_form.html', {'form': form, 'contact': contact})
+
+
+@login_required
 def contact_list_view(request):
     '''contact list view'''
+    if not request.user.is_superuser:
+        messages.error(
+            request, 'You do not have permission to view this page.')
+        return redirect('index')
     contacts = Contact.objects.all()
 
     # Sorting
@@ -84,7 +137,12 @@ def contact_list_view(request):
     descending = request.GET.get('descending', False)
 
     if sort_by:
-        if sort_by == 'name':
+        if sort_by == 'id':
+            if descending:
+                contacts = contacts.order_by('-id')
+            else:
+                contacts = contacts.order_by('id')
+        elif sort_by == 'name':
             if descending:
                 contacts = contacts.order_by('-name')
             else:

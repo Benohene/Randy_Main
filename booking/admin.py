@@ -1,7 +1,7 @@
 '''Admin View for Appointment'''
 from django.contrib import admin
 from .models import Appointment
-from .models import Contact, ContactReply
+from .models import Contact, ContactReply, Holiday
 
 
 class AppointmentAdmin(admin.ModelAdmin):
@@ -13,6 +13,14 @@ class AppointmentAdmin(admin.ModelAdmin):
     ordering = ('appointment_date', 'appointment_time')
 
 
+class HolidayAdmin(admin.ModelAdmin):
+    '''Admin View for Holiday'''
+    list_display = ('date', 'name')
+    list_filter = ('date', 'name')
+    search_fields = ('date', 'name')
+    ordering = ('-date',)
+
+
 # contact admin site
 class ContactAdmin(admin.ModelAdmin):
     '''Admin View for Contact'''
@@ -20,7 +28,7 @@ class ContactAdmin(admin.ModelAdmin):
     list_filter = ('replied', 'date')
     search_fields = ('name', 'email', 'phone_number', 'message_body', 'date')
     ordering = ('-id', 'replied', 'name')
-    
+
 
 # contact reply admin site
 class ContactReplyAdmin(admin.ModelAdmin):
@@ -32,5 +40,6 @@ class ContactReplyAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ContactReply, ContactReplyAdmin)
+admin.site.register(Holiday, HolidayAdmin)
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(Appointment, AppointmentAdmin)

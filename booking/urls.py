@@ -15,4 +15,6 @@ urlpatterns = [
     path('contacts/', views.contact_list_view, name='contact_list'),
     path('contact/<int:contact_id>/',
          views.reply_to_contact, name='reply_to_contact'),
+    path('add/', views.add_holiday, name='add_holiday'),
+    path('delete/<int:holiday_id>/', views.delete_holiday, name='delete_holiday'),
 ]

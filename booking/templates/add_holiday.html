@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% crispy form.field_name %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="text-center mb-2">Add Holiday</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        {{ form.date|as_crispy_field }}
+                    </div>
+                        <div class="col-12 col-md-6">
+                            {{ form.name|as_crispy_field }}
+                    </div>
+                            <div class="col-12 col-md-3"><button type="submit" class="btn btn-primary">Add
+                                    Holiday</button>
+                            </div>
+                        </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="text-center mb-2">Holidays</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for holiday in holidays %}
+                    <tr>
+                        <td class="col-3">{{ holiday.date }}</td>
+                        <td class="col-8">{{ holiday.name }}</td>
+                        <td class="col-1"><a href="{% url 'delete_holiday' holiday.id %}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No set holidays available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,8 +1,31 @@
 ''' Forms'''
 from datetime import date
+from datetime import timedelta
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Appointment
+from workalendar.europe import Germany
+from .models import Appointment, Holiday
+
+
+class HolidayForm(forms.ModelForm):
+    '''Holiday form'''
+    class Meta:
+        '''Meta class'''
+        model = Holiday
+        fields = ['date', 'name']
+        labels = {
+            'date': '',  # Clear the label for the date field
+            'name': '',  # Clear the label for the name field
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Enter Holiday Name'}),
+            'date': forms.DateInput(
+                attrs={
+                    'type': 'date',
+                    'min': str(date.today()),  # Set the minimum date to today
+                }
+            )
+        }
 
 
 class AppointmentForm(forms.ModelForm):
@@ -40,6 +63,27 @@ class AppointmentForm(forms.ModelForm):
         if appointment_date and appointment_date.weekday() in [6, 0]:
             raise ValidationError(
                 "Appointments cannot be scheduled on Sundays or Mondays.")
+
+        # Calculate the maximum allowed date (30 days from today)
+        max_date = date.today() + timedelta(days=30)
+
+        # Check if the selected date is more than 30 days from today
+        if appointment_date and appointment_date > max_date:
+            raise ValidationError(
+                "Appointments cannot be scheduled more than 30 days in advance.")
+
+        # Check if the selected date is a German public holiday
+        if appointment_date and not Germany().is_working_day(appointment_date):
+            raise ValidationError(
+                "Appointments cannot be scheduled on German public holidays.")
+
+        # Define a list of personal holidays (dates to be deactivated)
+        personal_holidays = Holiday.objects.values_list('date', flat=True)
+
+        # Check if the selected date is a personal holiday
+        if appointment_date and appointment_date in personal_holidays:
+            raise ValidationError(
+                "Appointments cannot be scheduled on personal holidays.")
 
         return appointment_date
 

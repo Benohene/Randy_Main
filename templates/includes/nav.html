@@ -17,21 +17,24 @@
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'service' %}">Service</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-                {% if request.user.is_superuser %}
-                <li class="nav-item signup-btn">
-                    <a class="nav-link {% if url_name == '#' %}active{% endif %}" href="{% url 'contact_list' %}"><i
-                            class="fa-solid fa-envelope"></i> Messages</a>
-                </li>
-                {% endif %}
+
                 {% if request.user.is_authenticated %}
+                <li class="nav-item dropdown text-gold">
+                    <a class="nav-link dropdown-toggle text-gold {% if url_name == '#' %}active{% endif %}" href="#"
+                        id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-cog"></i> Admin
+                    </a>
+                    <ul class="dropdown-menu me-5" aria-labelledby="navbarDropdown">
+                        {% if request.user.is_superuser %}
+                        <li><a class="dropdown-item" href="{% url 'contact_list' %}">Messages</a></li>
+                        <li><a class="dropdown-item" href="{% url 'add_holiday' %}">Holidays</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" href="{% url 'appointment_list' %}">Appointments</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item signup-btn">
                     <a class="nav-link {% if url_name == 'account_logout' %}active{% endif %}"
                         href="/accounts/logout/">Logout</a>
-                </li>
-                <li class="nav-item signup-btn">
-                    <a class="nav-link navUsername {% if url_name == '#' %}active{% endif %}"
-                        href="{% url 'appointment_list' %}"><i class="fa-solid fa-circle-user"></i> User
-                        Appointments</a>
                 </li>
                 {% else %}
                 <li class="nav-item signup-btn">

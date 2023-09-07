@@ -36,6 +36,19 @@ class Appointment(models.Model):
         ordering = ['-appointment_date', '-appointment_time']
 
 
+class Holiday(models.Model):
+    '''holiday model'''
+    date = models.DateField(default=datetime.now, unique=True)
+    name = models.CharField(max_length=400, null=True, blank=True)
+    
+    class Meta:
+        '''Meta class'''
+        ordering = ['-date']
+        
+    def __str__(self):
+        return f"{self.name} - {self.date}"
+
+
 class Contact(models.Model):
     '''contact model'''
     name = models.CharField(max_length=400)
@@ -54,7 +67,7 @@ class ContactReply(models.Model):
     '''contact reply model'''
     contact_message = models.ForeignKey(Contact, on_delete=models.CASCADE)
     reply_text = models.TextField()
-    reply_date = models.DateTimeField(auto_now_add=True)
+    reply_date = models.DateTimeField(default=timezone.now)
     replied_by = models.ForeignKey(User, on_delete=models.CASCADE)
     replied = models.BooleanField(default=False)
     

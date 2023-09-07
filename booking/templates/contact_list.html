@@ -81,7 +81,7 @@
                     <td>{{ contact.name }}</td>
                     <td>{{ contact.email }}</td>
                     <td>{{ contact.phone_number }}</td>
-                    <td>{{ contact.message_body }}</td>
+                    <td>{{ contact.message_body|truncatechars:20 }}</td>
                     <td>{{ contact.date }}</td>
                     <td>
                         <!-- if replied display reply or else display reply button -->

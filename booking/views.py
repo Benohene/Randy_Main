@@ -14,6 +14,8 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from .models import Contact, ContactReply
 from .forms import ContactForm, ContactReplyForm
+from .forms import HolidayForm
+from .models import Holiday
 
 
 def index(request):
@@ -365,3 +367,33 @@ def delete_appointment(request, appointment_id):
     appointment.delete()
     messages.success(request, 'Your appointment has been deleted.')
     return redirect('appointment_list')
+
+
+def add_holiday(request):
+    '''add holiday view'''
+    holidays = Holiday.objects.all()
+
+    if request.method == 'POST':
+        form = HolidayForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Holiday added successfully!')
+            return redirect('add_holiday')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = HolidayForm()
+
+    return render(request, 'add_holiday.html', {'form': form, 'holidays': holidays})
+
+
+def delete_holiday(request, holiday_id):
+    '''delete holiday item'''
+    try:
+        holiday = Holiday.objects.get(pk=holiday_id)
+        holiday.delete()
+        messages.success(request, 'Holiday deleted successfully!')
+    except Holiday.DoesNotExist:
+        messages.error(request, 'Holiday not found.')
+
+    return redirect('add_holiday')

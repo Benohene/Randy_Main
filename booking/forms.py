@@ -1,68 +1,78 @@
-''' Forms'''
-from datetime import date
-from datetime import timedelta
+""" Forms"""
+from datetime import date, timedelta
+
 from django import forms
 from django.core.exceptions import ValidationError
 from workalendar.europe import Germany
+
 from .models import Appointment, Holiday
 
 
 class HolidayForm(forms.ModelForm):
-    '''Holiday form'''
+    """Holiday form"""
+
     class Meta:
-        '''Meta class'''
+        """Meta class"""
+
         model = Holiday
-        fields = ['date', 'name']
+        fields = ["date", "name"]
         labels = {
-            'date': '',  # Clear the label for the date field
-            'name': '',  # Clear the label for the name field
+            "date": "",  # Clear the label for the date field
+            "name": "",  # Clear the label for the name field
         }
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Enter Holiday Name'}),
-            'date': forms.DateInput(
+            "name": forms.TextInput(
+                attrs={"placeholder": "Enter Holiday Name"}
+            ),
+            "date": forms.DateInput(
                 attrs={
-                    'type': 'date',
-                    'min': str(date.today()),  # Set the minimum date to today
+                    "type": "date",
+                    "min": str(
+                        date.today()
+                    ),  # Set the minimum date to today
                 }
-            )
+            ),
         }
 
 
 class AppointmentForm(forms.ModelForm):
-    '''Appointment form'''
+    """Appointment form"""
+
     class Meta:
-        '''Meta class'''
+        """Meta class"""
+
         model = Appointment
-        fields = '__all__'
+        fields = "__all__"
 
         labels = {
-            'name': 'Your Name',
-            'appointment_date': 'Date',
-            'appointment_time': 'Time',
-            'phone_number': 'Phone Number',
-            'message': 'Message (Optional)',
+            "name": "Your Name",
+            "appointment_date": "Date",
+            "appointment_time": "Time",
+            "phone_number": "Phone Number",
+            "message": "Message (Optional)",
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Add a DateInput widget for the appointment_date field
-        self.fields['appointment_date'].widget = forms.DateInput(
+        self.fields["appointment_date"].widget = forms.DateInput(
             attrs={
-                'type': 'date',
-                'min': str(date.today()),  # Set the minimum date to today
+                "type": "date",
+                "min": str(date.today()),  # Set the minimum date to today
             }
         )
 
     def clean_appointment_date(self):
-        '''Check if the selected date is a Sunday or Monday'''
-        appointment_date = self.cleaned_data.get('appointment_date')
+        """Check if the selected date is a Sunday or Monday"""
+        appointment_date = self.cleaned_data.get("appointment_date")
 
         # Check if the selected date is a Sunday or Monday
         # Sunday is 6, Monday is 0
         if appointment_date and appointment_date.weekday() in [6, 0]:
             raise ValidationError(
-                "Appointments cannot be scheduled on Sundays or Mondays.")
+                "Appointments cannot be scheduled on Sundays or Mondays."
+            )
 
         # Calculate the maximum allowed date (30 days from today)
         max_date = date.today() + timedelta(days=30)
@@ -70,48 +80,58 @@ class AppointmentForm(forms.ModelForm):
         # Check if the selected date is more than 30 days from today
         if appointment_date and appointment_date > max_date:
             raise ValidationError(
-                "Appointments cannot be scheduled more than 30 days in advance.")
+                "Appointments cannot be scheduled more than 30 days in advance."
+            )
 
         # Check if the selected date is a German public holiday
-        if appointment_date and not Germany().is_working_day(appointment_date):
+        if appointment_date and not Germany().is_working_day(
+            appointment_date
+        ):
             raise ValidationError(
-                "Appointments cannot be scheduled on German public holidays.")
+                "Appointments cannot be scheduled on German public holidays."
+            )
 
         # Define a list of personal holidays (dates to be deactivated)
-        personal_holidays = Holiday.objects.values_list('date', flat=True)
+        personal_holidays = Holiday.objects.values_list("date", flat=True)
 
         # Check if the selected date is a personal holiday
         if appointment_date and appointment_date in personal_holidays:
             raise ValidationError(
-                "Appointments cannot be scheduled on personal holidays.")
+                "Appointments cannot be scheduled on personal holidays."
+            )
 
         return appointment_date
 
     def clean_appointment_time(self):
-        '''Check if the selected time is available'''
-        appointment_time = self.cleaned_data.get('appointment_time')
-        appointment_date = self.cleaned_data.get('appointment_date')
+        """Check if the selected time is available"""
+        appointment_time = self.cleaned_data.get("appointment_time")
+        appointment_date = self.cleaned_data.get("appointment_date")
 
         # Check if the selected time is available
         if appointment_time and appointment_date:
             # Get all the appointments for the selected date
             appointments = Appointment.objects.filter(
-                appointment_date=appointment_date)
+                appointment_date=appointment_date
+            )
 
             # Get a list of all the times for the selected date
-            times = [appointment.appointment_time for appointment in appointments]
+            times = [
+                appointment.appointment_time
+                for appointment in appointments
+            ]
 
             # Check if the selected time is in the list of times
             if appointment_time in times:
                 raise ValidationError(
-                    "This time is not available. Please select a different time.")
+                    "This time is not available. Please select a different time."
+                )
 
         return appointment_time
 
     def clean(self):
-        '''Check if the selected date is in the past'''
+        """Check if the selected date is in the past"""
         cleaned_data = super().clean()
-        appointment_date = cleaned_data.get('appointment_date')
+        appointment_date = cleaned_data.get("appointment_date")
 
         # Check if the selected date is in the past
         if appointment_date and appointment_date < date.today():
@@ -121,16 +141,17 @@ class AppointmentForm(forms.ModelForm):
 
 
 class ContactForm(forms.Form):
-    '''Contact form'''
+    """Contact form"""
+
     name = forms.CharField(max_length=400)
     email = forms.EmailField(max_length=254)
     phone_number = forms.CharField(max_length=20)
     message_body = forms.CharField(widget=forms.Textarea)
 
     def clean(self):
-        '''Check if the name is a number'''
+        """Check if the name is a number"""
         cleaned_data = super().clean()
-        name = cleaned_data.get('name')
+        name = cleaned_data.get("name")
 
         # Check if the name is a number
         if name and name.isdigit():
@@ -140,17 +161,17 @@ class ContactForm(forms.Form):
 
 
 class ContactReplyForm(forms.Form):
-    '''Contact reply form'''
+    """Contact reply form"""
+
     reply_text = forms.CharField(widget=forms.Textarea)
 
     def __init__(self, *args, **kwargs):
-        self.contact_message = kwargs.pop('contact_message', None)
+        self.contact_message = kwargs.pop("contact_message", None)
         super().__init__(*args, **kwargs)
 
     def save(self, user):
-        '''Save the reply'''
-        reply_text = self.cleaned_data.get('reply_text')
-
+        """Save the reply"""
+        reply_text = self.cleaned_data.get("reply_text")
         # Create a new ContactReply object
         contact_reply = self.contact_message.contactreply_set.create(
             reply_text=reply_text,

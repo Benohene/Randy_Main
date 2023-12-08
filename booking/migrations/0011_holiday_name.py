@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('booking', '0010_holiday'),
+        ("booking", "0010_holiday"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='holiday',
-            name='name',
+            model_name="holiday",
+            name="name",
             field=models.CharField(blank=True, max_length=400, null=True),
         ),
     ]

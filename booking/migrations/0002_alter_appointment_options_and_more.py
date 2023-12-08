@@ -4,52 +4,78 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('booking', '0001_initial'),
+        ("booking", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='appointment',
-            options={'ordering': ['-appointment_date', '-appointment_time']},
+            name="appointment",
+            options={
+                "ordering": ["-appointment_date", "-appointment_time"]
+            },
         ),
         migrations.RenameField(
-            model_name='appointment',
-            old_name='day',
-            new_name='appointment_date',
+            model_name="appointment",
+            old_name="day",
+            new_name="appointment_date",
         ),
         migrations.RenameField(
-            model_name='appointment',
-            old_name='user',
-            new_name='customer',
+            model_name="appointment",
+            old_name="user",
+            new_name="customer",
         ),
         migrations.RemoveField(
-            model_name='appointment',
-            name='time',
+            model_name="appointment",
+            name="time",
         ),
         migrations.RemoveField(
-            model_name='appointment',
-            name='time_ordered',
+            model_name="appointment",
+            name="time_ordered",
         ),
         migrations.AddField(
-            model_name='appointment',
-            name='appointment_time',
-            field=models.CharField(choices=[('3 PM', '3 PM'), ('3:30 PM', '3:30 PM'), ('4 PM', '4 PM'), ('4:30 PM', '4:30 PM'), ('5 PM', '5 PM'), ('5:30 PM', '5:30 PM'), ('6 PM', '6 PM'), ('6:30 PM', '6:30 PM'), ('7 PM', '7 PM'), ('7:30 PM', '7:30 PM')], default='', max_length=10),
+            model_name="appointment",
+            name="appointment_time",
+            field=models.CharField(
+                choices=[
+                    ("3 PM", "3 PM"),
+                    ("3:30 PM", "3:30 PM"),
+                    ("4 PM", "4 PM"),
+                    ("4:30 PM", "4:30 PM"),
+                    ("5 PM", "5 PM"),
+                    ("5:30 PM", "5:30 PM"),
+                    ("6 PM", "6 PM"),
+                    ("6:30 PM", "6:30 PM"),
+                    ("7 PM", "7 PM"),
+                    ("7:30 PM", "7:30 PM"),
+                ],
+                default="",
+                max_length=10,
+            ),
         ),
         migrations.AddField(
-            model_name='appointment',
-            name='message',
+            model_name="appointment",
+            name="message",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='appointment',
-            name='phone_number',
+            model_name="appointment",
+            name="phone_number",
             field=models.CharField(max_length=20),
         ),
         migrations.AlterField(
-            model_name='appointment',
-            name='service',
-            field=models.CharField(choices=[('Men Haircut', 'Men Haircut'), ('Women Haircut', 'Women Haircut'), ('Kids Haircut', 'Kids Haircut'), ('Hair Coloring', 'Hair Coloring'), ('Hair Styling', 'Hair Styling'), ('Others', 'Others')], max_length=50),
+            model_name="appointment",
+            name="service",
+            field=models.CharField(
+                choices=[
+                    ("Men Haircut", "Men Haircut"),
+                    ("Women Haircut", "Women Haircut"),
+                    ("Kids Haircut", "Kids Haircut"),
+                    ("Hair Coloring", "Hair Coloring"),
+                    ("Hair Styling", "Hair Styling"),
+                    ("Others", "Others"),
+                ],
+                max_length=50,
+            ),
         ),
     ]

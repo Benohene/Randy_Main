@@ -1,9 +1,9 @@
-'''booking models'''
+"""booking models"""
 from datetime import datetime
-from django.utils import timezone
-from django.db import models
-from django.contrib.auth.models import User
 
+from django.contrib.auth.models import User
+from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 TIME_CHOICES = (
@@ -21,36 +21,43 @@ TIME_CHOICES = (
 
 
 class Appointment(models.Model):
-    '''appointment model'''
+    """appointment model"""
+
     customer = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True)
+        User, on_delete=models.CASCADE, null=True, blank=True
+    )
     name = models.CharField(max_length=400, null=True, blank=True)
     appointment_date = models.DateField(default=datetime.now)
     appointment_time = models.CharField(
-        max_length=10, choices=TIME_CHOICES, default="")
+        max_length=10, choices=TIME_CHOICES, default=""
+    )
     phone_number = models.CharField(max_length=20)
     message = models.TextField(null=True, blank=True)
 
     class Meta:
-        '''Meta class'''
-        ordering = ['-appointment_date', '-appointment_time']
+        """Meta class"""
+
+        ordering = ["-appointment_date", "-appointment_time"]
 
 
 class Holiday(models.Model):
-    '''holiday model'''
+    """holiday model"""
+
     date = models.DateField(default=datetime.now, unique=True)
     name = models.CharField(max_length=400, null=True, blank=True)
-    
+
     class Meta:
-        '''Meta class'''
-        ordering = ['-date']
-        
+        """Meta class"""
+
+        ordering = ["-date"]
+
     def __str__(self):
         return f"{self.name} - {self.date}"
 
 
 class Contact(models.Model):
-    '''contact model'''
+    """contact model"""
+
     name = models.CharField(max_length=400)
     email = models.EmailField(max_length=254)
     phone_number = models.CharField(max_length=20)
@@ -59,19 +66,22 @@ class Contact(models.Model):
     replied = models.BooleanField(default=False)
 
     class Meta:
-        '''Meta class'''
-        ordering = ['-id', 'replied', 'name']
- 
+        """Meta class"""
+
+        ordering = ["-id", "replied", "name"]
+
 
 class ContactReply(models.Model):
-    '''contact reply model'''
+    """contact reply model"""
+
     contact_message = models.ForeignKey(Contact, on_delete=models.CASCADE)
     reply_text = models.TextField()
     reply_date = models.DateTimeField(default=timezone.now)
     replied_by = models.ForeignKey(User, on_delete=models.CASCADE)
     replied = models.BooleanField(default=False)
-    
+
     class Meta:
-        '''Meta class'''
-        verbose_name_plural = 'Contact Replies'
-        ordering = ['-id', 'replied', 'contact_message']
+        """Meta class"""
+
+        verbose_name_plural = "Contact Replies"
+        ordering = ["-id", "replied", "contact_message"]

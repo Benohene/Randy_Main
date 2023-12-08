@@ -4,14 +4,16 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('booking', '0007_contactreply'),
+        ("booking", "0007_contactreply"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='contactreply',
-            options={'ordering': ['-id', 'replied', 'contact_message'], 'verbose_name_plural': 'Contact Replies'},
+            name="contactreply",
+            options={
+                "ordering": ["-id", "replied", "contact_message"],
+                "verbose_name_plural": "Contact Replies",
+            },
         ),
     ]

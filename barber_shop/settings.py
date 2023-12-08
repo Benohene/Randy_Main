@@ -28,7 +28,7 @@ if os.path.exists("env.py"):
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = "DEVELOPMENT" in os.environ
+DEBUG = "False"
 
 ALLOWED_HOSTS = ["randy-barber-main.herokuapp.com", "127.0.0.1", "randy-barber-main-d180e07dd4e7.herokuapp.com"]
 
@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ["randy-barber-main.herokuapp.com", "127.0.0.1", "randy-barber-m
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -59,6 +60,7 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -167,21 +169,27 @@ USE_TZ = True
 
 # settings.py
 
+# Whitenoise settings
+STATIC_URL = "/static/"
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Cloudinary configuration
-cloudinary.config(
-    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.environ.get("CLOUDINARY_API_KEY"),
-    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
-)
+# cloudinary.config(
+#     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+#     api_key=os.environ.get("CLOUDINARY_API_KEY"),
+#     api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+# )
 
-# Static files (CSS, JavaScript, images)
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+# # Static files (CSS, JavaScript, images)
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
-MEDIA_URL = 'https://res.cloudinary.com/your_cloud_name/image/upload/'
-STATIC_URL = 'https://res.cloudinary.com/your_cloud_name/raw/upload/'
+# MEDIA_URL = 'https://res.cloudinary.com/your_cloud_name/image/upload/'
+# STATIC_URL = 'https://res.cloudinary.com/your_cloud_name/raw/upload/'
 
 
 # Default primary key field type

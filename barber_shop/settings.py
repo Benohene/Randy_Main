@@ -26,7 +26,7 @@ if os.path.exists("env.py"):
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = "DEVELOPMENT" in os.environ
+DEBUG = False
 
 ALLOWED_HOSTS = ["randy-barber-main.herokuapp.com", "127.0.0.1", "randy-barber-main-d180e07dd4e7.herokuapp.com"]
 
@@ -160,7 +160,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfile")
 
 MEDIA_URL = "/media/"
-DEFUALT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 

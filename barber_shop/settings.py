@@ -26,7 +26,7 @@ if os.path.exists("env.py"):
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True if os.environ.get("DEVELOPMENT") else False
 
 ALLOWED_HOSTS = ["randy-barber-main.herokuapp.com", "127.0.0.1", "randy-barber-main-d180e07dd4e7.herokuapp.com"]
 
@@ -162,6 +162,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfile")
 MEDIA_URL = "/media/"
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_NAME"),
+    "API_KEY": os.environ.get("API_KEY"),
+    "API_SECRET": os.environ.get("API_SECRET"),
+}
 
 
 # Cloudinary configuration
